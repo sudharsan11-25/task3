@@ -9,9 +9,8 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/sudharsan11-25/task3.git'
-            }it
+                git url: 'https://github.com/sudharsan11-25/task3.git', branch: 'main'
+            }
         }
 
         stage('Build with Maven') {
@@ -22,7 +21,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE% ."
+                bat 'docker build -t %DOCKER_IMAGE% .'
             }
         }
 
@@ -33,10 +32,10 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat """
+                    bat '''
                         docker login -u %DOCKER_USER% -p %DOCKER_PASS%
                         docker push %DOCKER_IMAGE%
-                    """
+                    '''
                 }
             }
         }
